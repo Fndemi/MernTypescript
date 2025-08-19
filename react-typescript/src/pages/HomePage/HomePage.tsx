@@ -1,18 +1,17 @@
 import {LoginForm} from '../../features/authentication/components/LoginForm/LoginForm';
-import React from 'react';
-import {type User } from '../../models/User';
+import  {type RootState} from '../../redux/ReduxStore';
+import {useSelector} from 'react-redux';
 
 
-interface HomePageProps{
-  displayLogin:boolean,
-  updateLoggedInUser(user:User):void
-}
+export default function HomePage() {
 
-export default function HomePage(props: HomePageProps) {
+
+const displayLogin = useSelector((state:RootState) => state.modal.displayLogin);
+  
   return(
     <div className="page">
    Home page
-   {props.displayLogin? <LoginForm updateLoggedInUser={props.updateLoggedInUser}/>  :<></> }
+ { displayLogin ? <LoginForm />  : <></> }
     </div>
   )
 }

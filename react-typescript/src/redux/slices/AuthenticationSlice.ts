@@ -56,23 +56,16 @@ export const AuthenticationSlice = createSlice({
       };
       return state;
     });
-    
-   //Rejected logic
+
+    //Rejected logic
     builder.addCase(loginUser.rejected, (state, action) => {
-   state = {
-    ...state,
-    error:true
-   }
-   return state;
-
-
-
+      state = {
+        ...state,
+        error: true,
+        loading: false,
+      };
+      return state;
     });
-
-
-
-
-
   },
 });
 
