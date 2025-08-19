@@ -4,7 +4,7 @@ import {
   type PayloadAction,
 } from "@reduxjs/toolkit";
 
-import { type User } from "../../models/User";
+import { type User, type LoginUserPayload } from "../../models/User";
 import axios from "axios";
 
 interface AuthenticationSliceState {
@@ -21,10 +21,59 @@ const initialState: AuthenticationSliceState = {
   registerSuccess: false,
 };
 
+export const loginUser = createAsyncThunk(
+  "auth/login",
+  async (user: LoginUserPayload, thunkAPI) => {
+    try {
+      const req = await axios.post("http://localhost:8000/auth/login", user);
+      return req.data.user;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+);
+
 export const AuthenticationSlice = createSlice({
   name: "authentication",
   initialState,
   reducers: {},
+  extraReducers: (builder) => {
+    //Pending logic
+    builder.addCase(loginUser.pending, (state, action) => {
+      state = {
+        ...state,
+        error: false,
+        loading: true,
+      };
+      return state;
+    });
+    //Resolved logic
+    builder.addCase(loginUser.fulfilled, (state, action) => {
+      state = {
+        ...state,
+        loading: false,
+        loggedInUser: action.payload,
+      };
+      return state;
+    });
+    
+   //Rejected logic
+    builder.addCase(loginUser.rejected, (state, action) => {
+   state = {
+    ...state,
+    error:true
+   }
+   return state;
+
+
+
+    });
+
+
+
+
+
+  },
 });
 
 export const {} = AuthenticationSlice.actions;
