@@ -7,7 +7,7 @@ interface ModalSliceState {
 }
 
 const initialState: ModalSliceState = {
-  displayLogin: true,
+  displayLogin: false,
   displayLibraryCard: false,
   displayLoan: false,
 };
@@ -19,7 +19,7 @@ export const ModalSlice = createSlice({
     setDisplayLogin(state, action: PayloadAction<boolean>) {
       state = {
         ...state,
-        displayLibraryCard: action.payload,
+        displayLogin: action.payload,
       };
       return state;
     },

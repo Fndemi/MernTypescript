@@ -4,28 +4,28 @@ import {useState,useEffect} from 'react'
 import {useSelector} from 'react-redux'
 import { type RootState } from './redux/ReduxStore'
 import { type AppDispatch } from './redux/ReduxStore'
-
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import LayoutPage from './pages/LayoutPage/LayoutPage'
 const App = () => {
-const [displayLogin,setDisplayLogin] = useState<boolean>(true);
 
 const loggedInUser = useSelector((state:RootState) => state.authentication.loggedInUser);
-
-
-
-
 
 useEffect(()=>{
 console.log(loggedInUser)
 },[loggedInUser])
 
 
-
-
-
   return (
-    <div>
-    <HomePage displayLogin={displayLogin}  />
-    </div>
+   <BrowserRouter>
+   <Routes>
+   <Route path="/" element={<LayoutPage />} />
+   <Route path="" element={<HomePage/>}/>
+   <Route path='/catalog'element={<>Catalog</>} />
+   <Route path='/resource/:barcode' element={<>Resource</>} />
+   <Route path='/profile/:userId' element={<>User Profile</>} />
+  
+   </Routes>
+   </BrowserRouter>
   )
 }
 

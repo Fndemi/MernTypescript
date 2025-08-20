@@ -1,19 +1,21 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState,useEffect } from 'react';
 import {useDispatch,useSelector} from 'react-redux';
 import { type AppDispatch, type RootState} from '../../../../redux/ReduxStore';
 import { loginUser } from '../../../../redux/slices/AuthenticationSlice';
-
+import { setDisplayLogin } from '../../../../redux/slices/ModalSlice';
 import './LoginForm.css';
 import { type User } from '../../../../models/User';
 
-
-
-export const LoginForm: React.FC= () => {   
-
+interface LoginFormProps{
+  toggleRegister():void;
+}
+export const LoginForm: React.FC <LoginFormProps>= ({toggleRegister}) => {   
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const auth = useSelector((state:RootState) => state.authentication);
   const dispatch:AppDispatch = useDispatch();
+
+
   
   const handleLoginUser = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -39,7 +41,7 @@ export const LoginForm: React.FC= () => {
       </div>
       <button className="login-form-submit" onClick={handleLoginUser}>Login</button>
       <p>Don't have an account?
-        <span className="login-form-register">Create one here.</span>
+        <span className="login-form-register" onClick={toggleRegister}>Create one here.</span>
       </p>
     </form>
   );

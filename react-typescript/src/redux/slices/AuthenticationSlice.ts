@@ -4,7 +4,11 @@ import {
   type PayloadAction,
 } from "@reduxjs/toolkit";
 
-import { type User, type LoginUserPayload } from "../../models/User";
+import {
+  type User,
+  type LoginUserPayload,
+  type RegisterUserPayload,
+} from "../../models/User";
 import axios from "axios";
 
 interface AuthenticationSliceState {
@@ -33,10 +37,30 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+export const registerUser = createAsyncThunk(
+  "auth/register",
+  async (user: RegisterUserPayload, thunkAPI) => {
+    try {
+      const req = await axios.post("http://localhost:8000/auth/register", user);
+      return req.data.user;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+);
+
 export const AuthenticationSlice = createSlice({
   name: "authentication",
   initialState,
-  reducers: {},
+  reducers: {
+    resetRegisterSuccess(state) {
+      state = {
+        ...state,
+        registerSuccess: false,
+      };
+      return state;
+    },
+  },
   extraReducers: (builder) => {
     //Pending logic
     builder.addCase(loginUser.pending, (state, action) => {
@@ -47,12 +71,31 @@ export const AuthenticationSlice = createSlice({
       };
       return state;
     });
+
+    builder.addCase(registerUser.pending, (state, action) => {
+      state = {
+        ...state,
+        loading: false,
+        error: false,
+      };
+      return state;
+    });
+
     //Resolved logic
     builder.addCase(loginUser.fulfilled, (state, action) => {
       state = {
         ...state,
         loading: false,
         loggedInUser: action.payload,
+      };
+      return state;
+    });
+
+    builder.addCase(registerUser.fulfilled, (state, action) => {
+      state = {
+        ...state,
+        loading: false,
+        registerSuccess: true,
       };
       return state;
     });
@@ -66,9 +109,18 @@ export const AuthenticationSlice = createSlice({
       };
       return state;
     });
+
+    builder.addCase(registerUser.rejected, (state, action) => {
+      state = {
+        ...state,
+        error: true,
+        loading: false,
+      };
+      return state;
+    });
   },
 });
 
-export const {} = AuthenticationSlice.actions;
+export const { resetRegisterSuccess } = AuthenticationSlice.actions;
 
 export default AuthenticationSlice.reducer;

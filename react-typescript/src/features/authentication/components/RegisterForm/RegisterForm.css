@@ -1,0 +1,74 @@
+.register-form {
+  width: 100%;
+  max-width: 400px; /* optional: limits form width */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch; /* stretch inputs to full width */
+  padding: 16px;
+  gap: 16px; /* vertical spacing between sections */
+}
+
+.register-form-error {
+  color: #cb4c4e;
+  margin-bottom: 16px;
+}
+
+.register-form-name-group {
+  display: flex;
+  gap: 10px; /* space between first and last name */
+}
+
+.register-form-name-input-group {
+  flex: 1; /* fills equally */
+}
+
+.register-form-input-group {
+  width: 100%; /* full width */
+}
+
+.register-form-input,
+.register-form-input-name {
+  width: 100%;
+  height: 2.5rem;
+  font-size: 1.25rem;
+  padding: 5px;
+  box-sizing: border-box; /* includes padding in width */
+}
+
+.register-form-input::placeholder,
+.register-form-input-name::placeholder {
+  color: var(--text-secondary);
+}
+
+.register-form-input:focus,
+.register-form-input-name:focus {
+  outline: none;
+}
+
+.register-form-submit {
+  width: 100%;
+  height: 2.5rem;
+  border: none;
+  background-color: var(--secondary);
+  border-radius: 5px;
+  font-size: 1.25rem;
+  margin-bottom: 16px;
+}
+
+.register-form-submit:hover {
+  cursor: pointer;
+  background-color: var(--background-primary); /* fixed typo */
+  color: var(--primary);
+  border: 2px solid var(--primary);
+  box-shadow: var(--box-shadow);
+}
+
+.register-form-login {
+  color: var(--primary);
+  cursor: pointer;
+  margin-left: 4px;
+}
+
+.register-form-login:hover {
+  text-decoration: underline;
+}
